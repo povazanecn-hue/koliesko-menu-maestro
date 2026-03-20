@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
-import { Calendar, CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react';
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths, getDay, isToday, isBefore, startOfDay } from 'date-fns';
+import { CalendarDays, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMonths, subMonths, getDay, isToday, isBefore, startOfDay } from 'date-fns';
 import { sk } from 'date-fns/locale';
 import ReservationDialog from './ReservationDialog';
 import type { Tables } from '@/integrations/supabase/types';
@@ -36,8 +36,6 @@ export default function EventCalendarSection() {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(currentMonth);
   const days = eachDayOfInterval({ start: monthStart, end: monthEnd });
-
-  // Monday=0, so adjust getDay (0=Sun) → (Mon=0..Sun=6)
   const startDayIdx = (getDay(monthStart) + 6) % 7;
   const paddingDays = Array.from({ length: startDayIdx }, (_, i) => i);
 
@@ -58,42 +56,47 @@ export default function EventCalendarSection() {
   };
 
   return (
-    <section id="kalendar" ref={ref} className="py-24 bg-background">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <div className={`text-center mb-12 ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`}>
-          <p className="text-gold uppercase tracking-[0.25em] text-xs font-medium mb-3">Kalendár</p>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 leading-[1.1]">
+    <section id="kalendar" ref={ref} className="py-28 bg-card relative">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent via-gold/15 to-transparent" />
+
+      <div className="container mx-auto px-4 max-w-3xl">
+        <div className={`text-center mb-14 ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`}>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/8 border border-gold/15 mb-4">
+            <CalendarDays size={13} className="text-gold" />
+            <span className="text-gold text-[11px] font-semibold tracking-[0.2em] uppercase">Rezervácie</span>
+          </div>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4" style={{ letterSpacing: '-0.01em' }}>
             Obsadenosť podniku
           </h2>
-          <p className="text-muted-foreground max-w-lg mx-auto">
+          <p className="text-muted-foreground max-w-md mx-auto text-sm leading-relaxed">
             Kliknite na voľný deň a rezervujte si termín pre vašu akciu.
           </p>
         </div>
 
-        <div className={`bg-card rounded-2xl border border-border p-4 sm:p-8 shadow-2xl shadow-black/20 ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`} style={{ animationDelay: '0.15s' }}>
+        <div className={`bg-background rounded-2xl border border-border p-4 sm:p-8 shadow-premium-lg ${isVisible ? 'animate-reveal-scale' : 'opacity-0'}`} style={{ animationDelay: '0.1s' }}>
           {/* Month nav */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-8">
             <button
               onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-              className="p-2 rounded-lg hover:bg-secondary transition-colors active:scale-95"
+              className="p-2.5 rounded-xl hover:bg-secondary transition-all duration-200 active:scale-95"
             >
-              <ChevronLeft size={20} className="text-muted-foreground" />
+              <ChevronLeft size={18} className="text-muted-foreground" />
             </button>
-            <h3 className="font-display text-xl font-semibold text-foreground capitalize">
+            <h3 className="font-display text-lg sm:text-xl font-semibold text-foreground capitalize">
               {format(currentMonth, 'LLLL yyyy', { locale: sk })}
             </h3>
             <button
               onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-              className="p-2 rounded-lg hover:bg-secondary transition-colors active:scale-95"
+              className="p-2.5 rounded-xl hover:bg-secondary transition-all duration-200 active:scale-95"
             >
-              <ChevronRight size={20} className="text-muted-foreground" />
+              <ChevronRight size={18} className="text-muted-foreground" />
             </button>
           </div>
 
           {/* Day headers */}
-          <div className="grid grid-cols-7 gap-1 mb-2">
+          <div className="grid grid-cols-7 gap-1 mb-3">
             {DAY_NAMES.map((d) => (
-              <div key={d} className="text-center text-xs font-medium text-muted-foreground py-2">
+              <div key={d} className="text-center text-[11px] font-semibold text-muted-foreground/60 py-2 uppercase tracking-wider">
                 {d}
               </div>
             ))}
@@ -116,12 +119,12 @@ export default function EventCalendarSection() {
                   onClick={() => handleDayClick(day)}
                   disabled={past}
                   className={`
-                    aspect-square rounded-lg flex flex-col items-center justify-center relative
+                    aspect-square rounded-xl flex flex-col items-center justify-center relative
                     text-sm font-medium transition-all duration-200
-                    ${past ? 'text-muted-foreground/40 cursor-not-allowed' : 'cursor-pointer hover:bg-secondary active:scale-95'}
-                    ${today ? 'ring-2 ring-gold/50 ring-inset' : ''}
-                    ${status === 'booked' && !past ? 'bg-destructive/15 text-destructive' : ''}
-                    ${status === 'tentative' && !past ? 'bg-gold/10 text-gold' : ''}
+                    ${past ? 'text-muted-foreground/30 cursor-not-allowed' : 'cursor-pointer hover:bg-secondary active:scale-[0.96]'}
+                    ${today ? 'ring-2 ring-gold/40 ring-inset bg-gold/5' : ''}
+                    ${status === 'booked' && !past ? 'bg-destructive/12 text-destructive' : ''}
+                    ${status === 'tentative' && !past ? 'bg-gold/8 text-gold' : ''}
                     ${status === 'free' && !past ? 'text-foreground' : ''}
                   `}
                 >
@@ -131,7 +134,7 @@ export default function EventCalendarSection() {
                       {dayEvents.slice(0, 3).map((e) => (
                         <span
                           key={e.id}
-                          className={`w-1.5 h-1.5 rounded-full ${
+                          className={`w-1 h-1 rounded-full ${
                             e.status === 'confirmed' ? 'bg-destructive' : 'bg-gold'
                           }`}
                         />
@@ -144,17 +147,17 @@ export default function EventCalendarSection() {
           </div>
 
           {/* Legend */}
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-6 pt-6 border-t border-border">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span className="w-3 h-3 rounded-full bg-secondary border border-border" />
+          <div className="flex flex-wrap items-center justify-center gap-5 mt-8 pt-6 border-t border-border/60">
+            <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+              <span className="w-2.5 h-2.5 rounded-full bg-secondary border border-border/80" />
               Voľný
             </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span className="w-3 h-3 rounded-full bg-gold/30" />
+            <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+              <span className="w-2.5 h-2.5 rounded-full bg-gold/30 border border-gold/20" />
               Predbežne
             </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span className="w-3 h-3 rounded-full bg-destructive/30" />
+            <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+              <span className="w-2.5 h-2.5 rounded-full bg-destructive/30 border border-destructive/20" />
               Obsadené
             </div>
           </div>
