@@ -1,58 +1,61 @@
+import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
-import { UtensilsCrossed, Flame, Leaf, Star } from 'lucide-react';
+import { UtensilsCrossed, AlertTriangle, Scale } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { Skeleton } from '@/components/ui/skeleton';
+import { allergenLabels } from '@/data/menuData';
 
-const menuCategories = [
-  {
-    title: 'Predjedlá',
-    items: [
-      { name: 'Tatársky biftek z hovädzej sviečkovej', desc: 'Hrianky, maslo, korenie', price: '14,90 €', badge: 'Premium' },
-      { name: 'Domáca paštéta z kačacích pečienok', desc: 'Brusnicový kompót, hrianky', price: '8,90 €' },
-      { name: 'Carpaccio z červenej repy', desc: 'Kozí syr, vlašské orechy, med', price: '7,90 €', badge: 'Vegetariánske' },
-    ],
-  },
-  {
-    title: 'Polievky',
-    items: [
-      { name: 'Hovädzia vývarová polievka', desc: 'Domáce rezance, zelenina', price: '3,90 €' },
-      { name: 'Cesnaková krémová polievka', desc: 'Krutóny, opečená slanina', price: '3,90 €' },
-      { name: 'Sezónna polievka dňa', desc: 'Podľa aktuálnej ponuky', price: '2,90 €' },
-    ],
-  },
-  {
-    title: 'Hlavné jedlá',
-    items: [
-      { name: 'Grilovaný hovädzí steak', desc: 'Pečené zemiaky, grilovaná zelenina, bylinkové maslo', price: '22,90 €', badge: 'Špeciál' },
-      { name: 'Pečená kačka', desc: 'Lokše, červená kapusta, dusená kapusta', price: '16,90 €', badge: 'Tradičné' },
-      { name: 'Hovädzia sviečková na smotane', desc: 'Hovädzí knedlík, brusnice', price: '14,90 €' },
-      { name: 'Grilovaný losos', desc: 'Špenátové rizoto, citrónové maslo', price: '18,90 €' },
-      { name: 'Vyprážaný bravčový rezeň', desc: 'Zemiaková kaša, kyslá uhorka', price: '11,90 €' },
-      { name: 'Bryndzové halušky', desc: 'Opečená slanina, kyslé mlieko', price: '9,90 €', badge: 'Tradičné' },
-    ],
-  },
-  {
-    title: 'Šaláty',
-    items: [
-      { name: 'Caesar šalát s grilovaným kuracím', desc: 'Parmezán, krutóny, anchovy dresing', price: '10,90 €' },
-      { name: 'Halloumi šalát', desc: 'Mix listový, cherry paradajky, olivy, medový dresing', price: '9,90 €', badge: 'Vegetariánske' },
-    ],
-  },
-  {
-    title: 'Dezerty',
-    items: [
-      { name: 'Panna cotta', desc: 'Lesné ovocie, mätový sirup', price: '5,90 €' },
-      { name: 'Domáci jablkový štrúdľa', desc: 'Vanilková zmrzlina, škorica', price: '5,90 €' },
-      { name: 'Čokoládový fondant', desc: 'Malinové coulis, šľahačka', price: '6,90 €', badge: 'Obľúbené' },
-    ],
-  },
-];
+type MenuCardItem = {
+  id: string;
+  category: string;
+  name: string;
+  description: string | null;
+  price: number;
+  weight: string | null;
+  allergens: string[];
+  photo_url: string | null;
+};
+
+const categoryOrder = ['predjedlá', 'polievky', 'hlavné jedlá', 'dezerty', 'nápoje'];
+const categoryLabels: Record<string, string> = {
+  predjedlá: 'Predjedlá',
+  polievky: 'Polievky',
+  'hlavné jedlá': 'Hlavné jedlá',
+  dezerty: 'Dezerty',
+  nápoje: 'Nápoje',
+};
 
 export default function MenuPage() {
+  const [items, setItems] = useState<MenuCardItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const { ref, isVisible } = useScrollReveal(0.1);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await supabase
+        .from('menu_card')
+        .select('*')
+        .eq('is_visible', true)
+        .order('sort_order', { ascending: true });
+      if (data) setItems(data);
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
+
+  const groupedItems = categoryOrder
+    .map((cat) => ({ category: cat, label: categoryLabels[cat] || cat, items: items.filter((i) => i.category === cat) }))
+    .filter((g) => g.items.length > 0);
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Jedálny lístok | Koliesko Country Klub</title>
+        <meta name="description" content="Stály jedálny lístok Koliesko Country Klubu – predjedlá, polievky, hlavné jedlá, dezerty a nápoje." />
+      </Helmet>
       <Navbar />
 
       <section className="pt-28 md:pt-32 pb-12">
@@ -62,59 +65,80 @@ export default function MenuPage() {
             <span className="text-gold text-[11px] font-semibold tracking-[0.2em] uppercase">À la carte</span>
           </div>
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-4" style={{ lineHeight: '0.95', letterSpacing: '-0.02em' }}>
-            Stály <span className="text-gold italic">jedálny lístok</span>
+            Jedálny <span className="text-gold italic">lístok</span>
           </h1>
           <p className="text-muted-foreground max-w-lg mx-auto text-sm sm:text-base leading-relaxed">
-            Naša stála ponuka — tradičná slovenská a česká kuchyňa, grilované špeciality a sezónne výbery.
+            Naša stála ponuka tradičných aj moderných jedál z čerstvých surovín.
           </p>
         </div>
       </section>
 
       <section ref={ref} className="pb-28">
-        <div className="container mx-auto px-4 max-w-3xl space-y-16">
-          {menuCategories.map((cat, catIdx) => (
-            <div
-              key={cat.title}
-              className={isVisible ? 'animate-reveal-up' : 'opacity-0'}
-              style={{ animationDelay: `${catIdx * 0.1}s` }}
-            >
-              <div className="flex items-center gap-4 mb-8">
-                <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground whitespace-nowrap" style={{ letterSpacing: '-0.01em' }}>
-                  {cat.title}
-                </h2>
-                <div className="flex-1 h-px bg-gradient-to-r from-border to-transparent" />
-              </div>
-
-              <div className="space-y-1">
-                {cat.items.map((item) => (
-                  <div key={item.name} className="group flex items-start justify-between gap-4 py-4 px-4 -mx-4 rounded-xl hover:bg-card/50 transition-all duration-200">
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <h3 className="font-semibold text-foreground text-sm sm:text-[15px] group-hover:text-gold transition-colors duration-200">
-                          {item.name}
-                        </h3>
-                        {item.badge && (
-                          <span className="text-[9px] uppercase tracking-[0.1em] px-2 py-0.5 rounded-full bg-gold/10 text-gold font-bold border border-gold/15">
-                            {item.badge}
+        <div className="container mx-auto px-4 max-w-4xl">
+          {loading ? (
+            <div className="space-y-8">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="space-y-3">
+                  <Skeleton className="h-8 w-40" />
+                  <Skeleton className="h-20 w-full rounded-xl" />
+                  <Skeleton className="h-20 w-full rounded-xl" />
+                </div>
+              ))}
+            </div>
+          ) : items.length === 0 ? (
+            <div className="text-center py-16">
+              <UtensilsCrossed size={32} className="text-muted-foreground/20 mx-auto mb-3" />
+              <p className="text-muted-foreground">Jedálny lístok sa pripravuje.</p>
+            </div>
+          ) : (
+            <div className={`space-y-12 ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`}>
+              {groupedItems.map((group) => (
+                <div key={group.category}>
+                  <h2 className="font-display text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+                    <span className="w-8 h-px bg-gold/30" />
+                    {group.label}
+                  </h2>
+                  <div className="space-y-2">
+                    {group.items.map((item) => (
+                      <div key={item.id} className="group bg-card rounded-xl border border-border p-5 hover:border-gold/20 transition-all duration-300">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-foreground text-[15px] group-hover:text-gold transition-colors">{item.name}</h3>
+                            {item.description && (
+                              <p className="text-sm text-muted-foreground leading-relaxed mt-1">{item.description}</p>
+                            )}
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
+                              {item.weight && (
+                                <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                                  <Scale size={11} className="text-muted-foreground/50" /> {item.weight}
+                                </span>
+                              )}
+                              {item.allergens.length > 0 && (
+                                <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground cursor-help"
+                                  title={item.allergens.map(a => `${a} - ${allergenLabels[Number(a)] || a}`).join('\n')}>
+                                  <AlertTriangle size={11} className="text-muted-foreground/50" />
+                                  Alergény: {item.allergens.join(', ')}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <span className="text-gold font-bold text-lg tabular-nums tracking-tight whitespace-nowrap">
+                            {Number(item.price).toFixed(2).replace('.', ',')} €
                           </span>
-                        )}
+                        </div>
                       </div>
-                      <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-                    </div>
-                    <span className="text-gold font-bold text-base sm:text-lg tabular-nums tracking-tight whitespace-nowrap shrink-0 mt-0.5">
-                      {item.price}
-                    </span>
+                    ))}
                   </div>
-                ))}
+                </div>
+              ))}
+
+              <div className="text-center pt-4">
+                <p className="text-xs text-muted-foreground/70">
+                  Ceny sú s DPH. Alergény vám radi poskytneme na požiadanie.
+                </p>
               </div>
             </div>
-          ))}
-
-          <div className="text-center pt-8">
-            <p className="text-xs text-muted-foreground/70">
-              Ceny sú s DPH. Alergény vám radi poskytneme na požiadanie.
-            </p>
-          </div>
+          )}
         </div>
       </section>
 
