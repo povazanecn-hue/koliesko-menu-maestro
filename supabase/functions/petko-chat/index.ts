@@ -68,7 +68,7 @@ serve(async (req) => {
         body: JSON.stringify({
           model: 'gemini-2.5-flash',
           messages: aiMessages,
-          response_mime_type: 'application/json',
+          response_format: { type: 'json_object' },
         }),
       }
     );
