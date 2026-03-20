@@ -89,15 +89,19 @@ export default {
           to: { height: "0" },
         },
         "reveal-up": {
-          from: { opacity: "0", transform: "translateY(16px)", filter: "blur(4px)" },
+          from: { opacity: "0", transform: "translateY(24px)", filter: "blur(6px)" },
           to: { opacity: "1", transform: "translateY(0)", filter: "blur(0)" },
         },
         "reveal-left": {
-          from: { opacity: "0", transform: "translateX(-16px)", filter: "blur(4px)" },
+          from: { opacity: "0", transform: "translateX(-24px)", filter: "blur(6px)" },
+          to: { opacity: "1", transform: "translateX(0)", filter: "blur(0)" },
+        },
+        "reveal-right": {
+          from: { opacity: "0", transform: "translateX(24px)", filter: "blur(6px)" },
           to: { opacity: "1", transform: "translateX(0)", filter: "blur(0)" },
         },
         "reveal-scale": {
-          from: { opacity: "0", transform: "scale(0.97)", filter: "blur(3px)" },
+          from: { opacity: "0", transform: "scale(0.95)", filter: "blur(4px)" },
           to: { opacity: "1", transform: "scale(1)", filter: "blur(0)" },
         },
         "fade-in": {
@@ -110,18 +114,24 @@ export default {
         },
         "float": {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-6px)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { boxShadow: "0 0 20px hsl(40 82% 52% / 0.15)" },
+          "50%": { boxShadow: "0 0 40px hsl(40 82% 52% / 0.3)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "reveal-up": "reveal-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards",
-        "reveal-left": "reveal-left 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards",
-        "reveal-scale": "reveal-scale 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "reveal-up": "reveal-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "reveal-left": "reveal-left 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "reveal-right": "reveal-right 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "reveal-scale": "reveal-scale 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "fade-in": "fade-in 0.5s ease-out forwards",
-        "shimmer": "shimmer 2s linear infinite",
+        "shimmer": "shimmer 3s linear infinite",
         "float": "float 4s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 3s ease-in-out infinite",
       },
     },
   },

@@ -1,44 +1,72 @@
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import heroImg from '@/assets/koliesko-skica.jpeg';
-import { Heart } from 'lucide-react';
+import { Heart, ArrowRight, MapPin, Users, Award } from 'lucide-react';
 
 export default function AtmosphereSection() {
   const { ref, isVisible } = useScrollReveal(0.15);
 
   return (
-    <section ref={ref} className="py-28 bg-card relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent via-gold/15 to-transparent" />
+    <section ref={ref} className="py-32 bg-card relative overflow-hidden">
+      <div className="section-divider absolute top-0 left-1/2 -translate-x-1/2" />
 
-      <div className="container mx-auto px-4 max-w-5xl">
-        <div className={`grid md:grid-cols-2 gap-10 md:gap-16 items-center ${isVisible ? '' : 'opacity-0'}`}>
+      {/* Ambient glow */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-gold/3 rounded-full blur-[120px]" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-gold/2 rounded-full blur-[100px]" />
+
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${isVisible ? '' : 'opacity-0'}`}>
           {/* Image */}
           <div
-            className="rounded-2xl overflow-hidden border border-border shadow-premium-lg"
-            style={{ animation: isVisible ? 'reveal-left 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s forwards' : 'none', opacity: 0 }}
+            className="relative group"
+            style={{ animation: isVisible ? 'reveal-left 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s forwards' : 'none', opacity: 0 }}
           >
-            <img src={heroImg} alt="Koliesko Country Klub – atmosféra" className="w-full h-auto object-cover" />
+            <div className="rounded-3xl overflow-hidden border border-border/40 shadow-premium-lg relative">
+              <img src={heroImg} alt="Koliesko Country Klub – atmosféra" className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+            </div>
+            {/* Floating stat card */}
+            <div className="absolute -bottom-6 -right-4 sm:right-4 glass-strong border border-gold/20 rounded-2xl px-5 py-4 shadow-premium-lg">
+              <p className="text-3xl font-display font-bold gold-gradient-text">20+</p>
+              <p className="text-xs text-muted-foreground mt-0.5">rokov tradície</p>
+            </div>
           </div>
 
           {/* Text */}
-          <div style={{ animation: isVisible ? 'reveal-up 0.7s cubic-bezier(0.16,1,0.3,1) 0.25s forwards' : 'none', opacity: 0 }}>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/8 border border-gold/15 mb-5">
+          <div style={{ animation: isVisible ? 'reveal-up 0.8s cubic-bezier(0.16,1,0.3,1) 0.25s forwards' : 'none', opacity: 0 }}>
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass border border-gold/15 mb-7">
               <Heart size={13} className="text-gold" />
               <span className="text-gold text-[11px] font-semibold tracking-[0.2em] uppercase">Od roku 2004</span>
             </div>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-5" style={{ lineHeight: '1.1', letterSpacing: '-0.01em' }}>
-              Miesto s <span className="text-gold italic">dušou</span>
+            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-7" style={{ lineHeight: '1.05', letterSpacing: '-0.02em' }}>
+              Miesto s<br /><span className="gold-gradient-text italic">dušou</span>
             </h2>
-            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-4">
-              Koliesko Country Klub nie je len reštaurácia — je to miesto, kde sa stretávajú rodiny, kolegovia a priatelia. Už vyše 20 rokov varíme s láskou a tradíciou.
+            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-5">
+              Koliesko Country Klub nie je len reštaurácia — je to miesto, kde sa stretávajú rodiny, kolegovia a priatelia.
             </p>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+            <p className="text-muted-foreground/70 text-sm leading-relaxed mb-8">
               Útulný interiér, krásna letná terasa a záhrada — ideálne na každodenné obedy aj veľké oslavy.
             </p>
+
+            {/* Feature pills */}
+            <div className="flex flex-wrap gap-3 mb-9">
+              {[
+                { icon: MapPin, text: 'Bratislava – Trnávka' },
+                { icon: Users, text: 'Až 120 hostí' },
+                { icon: Award, text: 'Tradičná kuchyňa' },
+              ].map(({ icon: Icon, text }) => (
+                <div key={text} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary/60 border border-border/40 text-sm text-muted-foreground">
+                  <Icon size={14} className="text-gold/70" />
+                  {text}
+                </div>
+              ))}
+            </div>
+
             <a
               href="/o-nas"
-              className="inline-flex items-center gap-2 text-gold text-sm font-semibold hover:underline underline-offset-4 transition-all"
+              className="group inline-flex items-center gap-2.5 text-gold text-sm font-bold hover:gap-3.5 transition-all duration-300"
             >
-              Viac o nás →
+              Viac o nás
+              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
             </a>
           </div>
         </div>
