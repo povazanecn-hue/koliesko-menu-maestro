@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,31 +22,33 @@ import NotFound from "./pages/NotFound.tsx";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/denne-menu" element={<DenneMenuPage />} />
-            <Route path="/menu" element={<MenuPage />} />
-            <Route path="/o-nas" element={<ONasPage />} />
-            <Route path="/galeria" element={<GaleriaPage />} />
-            <Route path="/akcie" element={<AkciePage />} />
-            <Route path="/eshop" element={<EshopPage />} />
-            <Route path="/rezervacia" element={<RezervaciaPage />} />
-            <Route path="/kontakt" element={<KontaktPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/admin" element={<AdminPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <PetoAssistant />
-        </BrowserRouter>
-      </AuthProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/denne-menu" element={<DenneMenuPage />} />
+              <Route path="/menu" element={<MenuPage />} />
+              <Route path="/o-nas" element={<ONasPage />} />
+              <Route path="/galeria" element={<GaleriaPage />} />
+              <Route path="/akcie" element={<AkciePage />} />
+              <Route path="/eshop" element={<EshopPage />} />
+              <Route path="/rezervacia" element={<RezervaciaPage />} />
+              <Route path="/kontakt" element={<KontaktPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/admin" element={<AdminPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <PetoAssistant />
+          </BrowserRouter>
+        </AuthProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;
