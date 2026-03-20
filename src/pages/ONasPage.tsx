@@ -1,8 +1,9 @@
+import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import heroImg from '@/assets/koliesko-skica.jpeg';
-import { Heart, Users, Utensils, TreePine } from 'lucide-react';
+import { Heart, Users, Utensils, TreePine, Star, MapPin } from 'lucide-react';
 
 export default function ONasPage() {
   const { ref, isVisible } = useScrollReveal(0.1);
