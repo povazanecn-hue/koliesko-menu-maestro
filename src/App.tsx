@@ -6,6 +6,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import PetkoAssistant from "@/components/PetkoAssistant";
 import Index from "./pages/Index.tsx";
+import DenneMenuPage from "./pages/DenneMenuPage.tsx";
+import MenuPage from "./pages/MenuPage.tsx";
+import ONasPage from "./pages/ONasPage.tsx";
+import GaleriaPage from "./pages/GaleriaPage.tsx";
 import AkciePage from "./pages/AkciePage.tsx";
 import EshopPage from "./pages/EshopPage.tsx";
 import RezervaciaPage from "./pages/RezervaciaPage.tsx";
@@ -25,6 +29,10 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/denne-menu" element={<DenneMenuPage />} />
+            <Route path="/menu" element={<MenuPage />} />
+            <Route path="/o-nas" element={<ONasPage />} />
+            <Route path="/galeria" element={<GaleriaPage />} />
             <Route path="/akcie" element={<AkciePage />} />
             <Route path="/eshop" element={<EshopPage />} />
             <Route path="/rezervacia" element={<RezervaciaPage />} />

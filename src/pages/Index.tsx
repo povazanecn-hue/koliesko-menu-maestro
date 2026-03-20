@@ -1,7 +1,9 @@
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import DailyMenuSection from '@/components/DailyMenuSection';
-import EventCalendarSection from '@/components/EventCalendarSection';
+import AtmosphereSection from '@/components/AtmosphereSection';
+import EventsCTASection from '@/components/EventsCTASection';
+import EshopTeaser from '@/components/EshopTeaser';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 
@@ -11,7 +13,9 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <DailyMenuSection />
-      <EventCalendarSection />
+      <AtmosphereSection />
+      <EventsCTASection />
+      <EshopTeaser />
       <ContactSection />
       <Footer />
     </div>
