@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '@/assets/logo-koliesko.png';
+import logo from '@/assets/logo-koliesko-new.png';
 import { MapPin, Phone, Mail } from 'lucide-react';
 
 export default function Footer() {
@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-10 md:gap-8 mb-12">
           {/* Brand */}
           <div>
-            <img src={logo} alt="Koliesko Country Klub" className="h-12 w-auto mb-4" />
+            <img src={logo} alt="Koliesko Country Klub" className="h-14 w-auto mb-4" />
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
               Tradičná slovenská a česká kuchyňa v srdci Bratislavy-Trnávky od roku 2004.
             </p>
