@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '@/assets/logo-koliesko.png';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
@@ -13,25 +13,35 @@ const navItems = [
 
 export default function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleNav = (path: string) => {
+  const handleNav = (e: React.MouseEvent, path: string) => {
     setMobileOpen(false);
     if (path.includes('#')) {
       const hash = path.split('#')[1];
-      const el = document.getElementById(hash);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-        return;
+      const basePath = path.split('#')[0] || '/';
+
+      if (location.pathname === basePath) {
+        e.preventDefault();
+        const el = document.getElementById(hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        e.preventDefault();
+        navigate(basePath);
+        setTimeout(() => {
+          const el = document.getElementById(hash);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 300);
       }
     }
   };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-surface-overlay/95 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto flex items-center justify-between h-16 px-4 lg:px-8">
+      <div className="container mx-auto flex items-center justify-between h-16 md:h-20 px-4 lg:px-8">
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="Koliesko Country Klub" className="h-10 md:h-12 w-auto" />
+          <img src={logo} alt="Koliesko Country Klub" className="h-12 md:h-14 w-auto" />
         </Link>
 
         {/* Desktop */}
@@ -40,9 +50,9 @@ export default function Navbar() {
             <Link
               key={item.path}
               to={item.path}
-              onClick={() => handleNav(item.path)}
+              onClick={(e) => handleNav(e, item.path)}
               className={`text-sm font-medium transition-colors duration-200 hover:text-gold ${
-                location.pathname === item.path ? 'text-gold' : 'text-muted-foreground'
+                location.pathname === item.path || (item.path.startsWith('/#') && location.pathname === '/') ? 'text-gold' : 'text-muted-foreground'
               }`}
             >
               {item.label}
@@ -73,7 +83,7 @@ export default function Navbar() {
               <Link
                 key={item.path}
                 to={item.path}
-                onClick={() => handleNav(item.path)}
+                onClick={(e) => handleNav(e, item.path)}
                 className="text-sm font-medium text-muted-foreground hover:text-gold py-2"
               >
                 {item.label}

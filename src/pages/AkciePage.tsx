@@ -19,7 +19,7 @@ export default function AkciePage() {
       <Navbar />
 
       {/* Hero */}
-      <section ref={ref} className="relative pt-16 min-h-[60vh] flex items-center overflow-hidden">
+      <section ref={ref} className="relative pt-20 md:pt-24 min-h-[60vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <img src={eventImg} alt="Event priestor" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />

@@ -46,6 +46,7 @@ export default function HeroSection() {
           </a>
           <a
             href="/akcie"
+            onClick={(e) => { e.preventDefault(); window.location.href = '/akcie'; }}
             className="px-8 py-4 rounded-lg border border-border text-foreground font-semibold text-base transition-all duration-200 hover:border-gold hover:text-gold active:scale-[0.97]"
           >
             Naplánovať akciu

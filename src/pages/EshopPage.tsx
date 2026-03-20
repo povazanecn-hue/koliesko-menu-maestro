@@ -59,7 +59,7 @@ export default function EshopPage() {
       <Navbar />
 
       {/* Header */}
-      <section className="pt-24 pb-12">
+      <section className="pt-28 md:pt-32 pb-12">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="flex items-center justify-between">
             <div>
