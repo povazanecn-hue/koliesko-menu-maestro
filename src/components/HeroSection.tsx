@@ -1,6 +1,6 @@
 import heroImg from '@/assets/koliesko-skica.jpeg';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
-import { ArrowDown, Sparkles, CalendarCheck } from 'lucide-react';
+import { ArrowDown, Sparkles, CalendarCheck, UtensilsCrossed } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 export default function HeroSection() {
@@ -69,19 +69,25 @@ export default function HeroSection() {
           style={{ animation: isVisible ? 'reveal-up 0.7s cubic-bezier(0.16,1,0.3,1) 0.5s forwards' : 'none', opacity: 0 }}
         >
           <a
-            href="#denne-menu"
+            href="/denne-menu"
             className="group inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-sm tracking-wide transition-all duration-300 hover:shadow-premium-lg glow-gold-hover active:scale-[0.97]"
           >
             <Sparkles size={16} strokeWidth={2.5} />
             Denné menu
           </a>
           <a
-            href="/akcie"
-            onClick={(e) => { e.preventDefault(); window.location.href = '/akcie'; }}
+            href="/rezervacia"
             className="group inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl border border-border/60 text-foreground font-semibold text-sm tracking-wide transition-all duration-300 hover:border-gold/40 hover:text-gold hover:bg-gold/5 active:scale-[0.97]"
           >
             <CalendarCheck size={16} strokeWidth={2.5} />
-            Naplánovať akciu
+            Rezervovať stôl
+          </a>
+          <a
+            href="/eshop"
+            className="group inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl border border-border/60 text-foreground font-semibold text-sm tracking-wide transition-all duration-300 hover:border-gold/40 hover:text-gold hover:bg-gold/5 active:scale-[0.97]"
+          >
+            <UtensilsCrossed size={16} strokeWidth={2.5} />
+            Objednať online
           </a>
         </div>
       </div>
