@@ -5,7 +5,7 @@ export default function HeroSection() {
   const { ref, isVisible } = useScrollReveal(0.1);
 
   return (
-    <section ref={ref} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <section ref={ref} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-16 md:pt-20">
       {/* Background */}
       <div className="absolute inset-0">
         <img src={heroImg} alt="Koliesko Country Klub interiér" className="w-full h-full object-cover" />
