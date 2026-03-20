@@ -180,7 +180,7 @@ const PetkoAssistant = () => {
         {isOpen ? (
           <X className="w-6 h-6 text-white" />
         ) : (
-          <span className="text-3xl" role="img" aria-label="Peťko">{AVATAR_EMOJI}</span>
+          <PetkoAvatar size="lg" />
         )}
         {showPulse && !isOpen && (
           <span className="absolute inset-0 rounded-full animate-ping bg-[hsl(var(--primary))]/30 pointer-events-none" />
@@ -201,7 +201,7 @@ const PetkoAssistant = () => {
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-white/10 bg-gradient-to-r from-[hsl(var(--primary))]/10 to-transparent">
             <div className="relative">
-              <span className="text-2xl">{AVATAR_EMOJI}</span>
+              <PetkoAvatar size="md" />
               {isSpeaking && (
                 <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-[hsl(var(--card))] animate-pulse" />
               )}
@@ -233,7 +233,7 @@ const PetkoAssistant = () => {
             {messages.map((msg, i) => (
               <div key={i} className={`flex gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {msg.role === 'assistant' && (
-                  <span className="text-lg shrink-0 mt-1">{AVATAR_EMOJI}</span>
+                  <span className="shrink-0 mt-1"><PetkoAvatar size="sm" /></span>
                 )}
                 <div className={`max-w-[85%] ${msg.role === 'user' ? 'order-first' : ''}`}>
                   <div
@@ -265,7 +265,7 @@ const PetkoAssistant = () => {
             ))}
             {isLoading && (
               <div className="flex gap-2 items-start">
-                <span className="text-lg">{AVATAR_EMOJI}</span>
+                <PetkoAvatar size="sm" />
                 <div className="bg-[hsl(var(--secondary))] rounded-2xl rounded-bl-sm px-4 py-3">
                   <div className="flex gap-1">
                     <span className="w-2 h-2 bg-[hsl(var(--muted-foreground))] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
