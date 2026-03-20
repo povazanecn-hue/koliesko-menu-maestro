@@ -30,12 +30,8 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-surface-overlay/95 backdrop-blur-md border-b border-border">
       <div className="container mx-auto flex items-center justify-between h-16 px-4 lg:px-8">
-        <Link to="/" className="flex items-center gap-3 group">
-          <img src={logo} alt="Koliesko" className="h-10 w-10 transition-transform group-hover:rotate-45 duration-500" />
-          <div className="flex flex-col leading-tight">
-            <span className="font-display text-lg font-semibold text-foreground tracking-tight">Koliesko</span>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-gold font-medium">Country Klub</span>
-          </div>
+        <Link to="/" className="flex items-center">
+          <img src={logo} alt="Koliesko Country Klub" className="h-10 md:h-12 w-auto" />
         </Link>
 
         {/* Desktop */}
