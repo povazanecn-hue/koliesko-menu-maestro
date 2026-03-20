@@ -104,6 +104,13 @@
     background: linear-gradient(135deg, hsl(40 82% 52%), hsl(40 65% 68%));
   }
 
+  .gold-gradient-text {
+    background: linear-gradient(135deg, hsl(40 82% 52%), hsl(40 65% 68%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
   .text-balance {
     text-wrap: balance;
   }
@@ -116,6 +123,19 @@
     background-color: hsl(var(--success));
   }
 
+  /* Premium glass */
+  .glass {
+    background: hsl(225 20% 11% / 0.6);
+    backdrop-filter: blur(24px) saturate(1.5);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  }
+
+  .glass-strong {
+    background: hsl(225 20% 11% / 0.85);
+    backdrop-filter: blur(32px) saturate(1.8);
+    -webkit-backdrop-filter: blur(32px) saturate(1.8);
+  }
+
   /* Premium glow effects */
   .glow-gold {
     box-shadow: 0 0 20px hsl(40 82% 52% / 0.15), 0 0 60px hsl(40 82% 52% / 0.05);
@@ -125,15 +145,39 @@
     box-shadow: 0 4px 24px hsl(40 82% 52% / 0.25), 0 0 60px hsl(40 82% 52% / 0.08);
   }
 
-  /* Subtle grain texture */
-  .texture-grain::before {
+  .glow-gold-strong {
+    box-shadow: 0 0 40px hsl(40 82% 52% / 0.25), 0 0 80px hsl(40 82% 52% / 0.1), inset 0 1px 0 hsl(40 82% 52% / 0.15);
+  }
+
+  /* Noise texture */
+  .texture-noise::before {
     content: '';
     position: absolute;
     inset: 0;
-    opacity: 0.03;
+    opacity: 0.02;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 1;
+  }
+
+  /* Section divider */
+  .section-divider {
+    @apply w-px h-16 mx-auto bg-gradient-to-b from-transparent via-gold/15 to-transparent;
+  }
+
+  /* Premium hover lift */
+  .hover-lift {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hover-lift:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Shimmer line */
+  .shimmer-line {
+    background: linear-gradient(90deg, transparent, hsl(40 82% 52% / 0.15), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
   }
 }
 
@@ -141,8 +185,8 @@
 @keyframes reveal-up {
   from {
     opacity: 0;
-    transform: translateY(16px);
-    filter: blur(4px);
+    transform: translateY(24px);
+    filter: blur(6px);
   }
   to {
     opacity: 1;
@@ -154,8 +198,21 @@
 @keyframes reveal-left {
   from {
     opacity: 0;
-    transform: translateX(-16px);
-    filter: blur(4px);
+    transform: translateX(-24px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes reveal-right {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+    filter: blur(6px);
   }
   to {
     opacity: 1;
@@ -167,8 +224,8 @@
 @keyframes reveal-scale {
   from {
     opacity: 0;
-    transform: scale(0.97);
-    filter: blur(3px);
+    transform: scale(0.95);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
@@ -189,12 +246,23 @@
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px hsl(40 82% 52% / 0.15); }
+  50% { box-shadow: 0 0 40px hsl(40 82% 52% / 0.3); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Smooth scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -202,16 +270,21 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(225 16% 22%);
+  background: hsl(225 16% 20%);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(225 16% 28%);
+  background: hsl(40 82% 52% / 0.4);
 }
 
 /* Selection */
 ::selection {
   background: hsl(40 82% 52% / 0.25);
   color: hsl(42 25% 93%);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
 }

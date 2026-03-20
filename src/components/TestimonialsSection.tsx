@@ -31,45 +31,57 @@ export default function TestimonialsSection() {
   if (testimonials.length === 0) return null;
 
   return (
-    <section ref={ref} className="py-28 bg-card relative">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent via-gold/15 to-transparent" />
+    <section ref={ref} className="py-32 bg-card relative overflow-hidden">
+      <div className="section-divider absolute top-0 left-1/2 -translate-x-1/2" />
 
-      <div className="container mx-auto px-4 max-w-5xl">
-        <div className={`text-center mb-14 ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`}>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/8 border border-gold/15 mb-4">
-            <Star size={13} className="text-gold" />
+      {/* Ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gold/3 rounded-full blur-[150px]" />
+
+      <div className="container mx-auto px-4 max-w-5xl relative">
+        <div className={`text-center mb-16 ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`}>
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass border border-gold/15 mb-6">
+            <Star size={13} className="text-gold fill-gold" />
             <span className="text-gold text-[11px] font-semibold tracking-[0.2em] uppercase">Recenzie</span>
           </div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4" style={{ letterSpacing: '-0.01em' }}>
-            Čo hovoria naši <span className="text-gold italic">hostia</span>
+          <h2 className="font-display text-4xl md:text-6xl font-bold text-foreground mb-5" style={{ letterSpacing: '-0.02em' }}>
+            Čo hovoria naši <span className="gold-gradient-text italic">hostia</span>
           </h2>
         </div>
 
-        <div className={`grid md:grid-cols-3 gap-5 ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`} style={{ animationDelay: '0.15s' }}>
-          {testimonials.map((t) => (
+        <div className={`grid md:grid-cols-3 gap-6 ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`} style={{ animationDelay: '0.15s' }}>
+          {testimonials.map((t, i) => (
             <div
               key={t.id}
-              className="bg-background rounded-2xl border border-border p-6 relative group hover:border-gold/20 transition-all duration-300"
+              className="relative bg-background/60 backdrop-blur-sm rounded-3xl border border-border/50 p-7 group hover:border-gold/25 hover-lift transition-all duration-500"
+              style={{ animationDelay: `${0.15 + i * 0.08}s` }}
             >
-              <div className="absolute top-4 right-4">
-                <Quote size={24} className="text-gold/10" />
+              {/* Gold accent line */}
+              <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="absolute top-5 right-5">
+                <Quote size={28} className="text-gold/8 group-hover:text-gold/15 transition-colors duration-500" />
               </div>
-              <div className="flex gap-0.5 mb-4">
-                {Array.from({ length: 5 }).map((_, i) => (
+              <div className="flex gap-0.5 mb-5">
+                {Array.from({ length: 5 }).map((_, idx) => (
                   <Star
-                    key={i}
-                    size={14}
-                    className={i < t.rating ? 'text-gold fill-gold' : 'text-muted-foreground/20'}
+                    key={idx}
+                    size={15}
+                    className={idx < t.rating ? 'text-gold fill-gold' : 'text-muted-foreground/15'}
                   />
                 ))}
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-5 line-clamp-4">
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6 line-clamp-4">
                 „{t.content}"
               </p>
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-foreground">{t.author}</p>
+              <div className="flex items-center justify-between pt-4 border-t border-border/30">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full gold-gradient flex items-center justify-center text-primary-foreground text-xs font-bold">
+                    {t.author.charAt(0)}
+                  </div>
+                  <p className="text-sm font-semibold text-foreground">{t.author}</p>
+                </div>
                 {t.source && (
-                  <span className="text-[10px] text-muted-foreground/60 uppercase tracking-wider">{t.source}</span>
+                  <span className="text-[10px] text-muted-foreground/50 uppercase tracking-wider">{t.source}</span>
                 )}
               </div>
             </div>
