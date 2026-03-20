@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '@/assets/logo-koliesko-new.png';
+import logo from '@/assets/logo-koliesko-gold.png';
 import { MapPin, Phone, Mail } from 'lucide-react';
 
 export default function Footer() {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import logo from '@/assets/logo-koliesko.png';
+import logo from '@/assets/logo-koliesko-gold.png';
 import { Loader2, Lock } from 'lucide-react';
 
 export default function LoginPage() {

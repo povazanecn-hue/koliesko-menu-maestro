@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import logo from '@/assets/logo-koliesko-new.png';
+import logo from '@/assets/logo-koliesko-gold.png';
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
 
