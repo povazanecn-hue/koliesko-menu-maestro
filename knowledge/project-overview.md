@@ -34,7 +34,7 @@ Premium restaurant website for **Koliesko Country Klub** — a family restaurant
 - **Event Calendar** — Supabase-backed calendar showing availability
 - **Reservation System** — Form → Supabase with admin approval workflow
 - **E-shop** — Cart-based ordering from daily menu items
-- **Peťko Assistant** — AI chatbot + ElevenLabs TTS voice guide
+- **Peťo Assistant** — AI chatbot + ElevenLabs TTS + browser STT voice guide
 
 ## MENUMAT / MenuMaestro Connection
 - Currently uses static `menuData.ts` as data source
@@ -59,9 +59,11 @@ Premium restaurant website for **Koliesko Country Klub** — a family restaurant
 - Public calendar shows availability
 - Click on free day → reservation dialog
 
-## Peťko Role
+## Peťo Role
 - AI chatbot powered by Lovable AI (Gemini 2.5 Flash)
 - ElevenLabs TTS for Slovak voice
+- Browser Web Speech API for voice input (sk-SK)
+- Auto voice greeting on first page load
 - Page-aware context
 - Quick action choices
 - First-visit greeting

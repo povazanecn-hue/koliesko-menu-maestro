@@ -1,7 +1,7 @@
-# Peťko — AI Assistant Specification
+# Peťo — AI Assistant Specification
 
 ## Identity
-**Peťko** is the friendly digital sprievodca (guide) for Koliesko Country Klub's website. He is modeled after the real manager/host of the restaurant.
+**Peťo** is the friendly digital sprievodca (guide) for Koliesko Country Klub's website. He is modeled after the real manager/host of the restaurant.
 
 ## Avatar
 - Custom illustration created from real photo of the restaurant manager
@@ -83,22 +83,25 @@ If exact answer unavailable, guide user to:
 - **AI Backend:** Lovable AI Gateway (google/gemini-2.5-flash)
 - **Edge Function:** `supabase/functions/petko-chat/index.ts`
 - **TTS:** ElevenLabs API via `supabase/functions/petko-tts/index.ts`
+- **STT:** Browser Web Speech API (sk-SK locale)
 - **Voice:** Slovak male voice (Roger, ID: JBFqnCBsd6RMkjVDRZzb)
 - **Response Format:** `{ "message": "text", "choices": ["Option 1", "Option 2"] }`
+- **Auto-greeting:** Voice greeting plays automatically 2s after page load
 
 ## UI Behavior
-- **First visit:** Greeting tooltip with pulse animation on avatar button
-- **On open:** Auto-greet with page-specific welcome
+- **First visit:** Auto voice greeting + greeting tooltip with pulse animation on avatar button
+- **On open:** Chat panel with conversation history
 - **Page change:** Context-aware intro for unvisited pages
 - **Floating button:** Bottom-right, 64px, gold gradient
 - **Chat panel:** 380px wide, max 70vh, slide-in animation
 - **Voice toggle:** Mute/unmute in header
+- **Mic button:** Speech-to-text input in Slovak
 - **Loading:** Typing dots animation
 
 ## Examples of Good Responses
 
 **Greeting:**
-"Ahoj! Som Peťko, tvoj sprievodca v Koliesku. Ako ti môžem pomôcť?"
+"Ahoj! Som Peťo, tvoj sprievodca v Koliesku. Ako ti môžem pomôcť?"
 
 **Menu inquiry:**
 "Dnes máme hovädzí vývar a štyri hlavné jedlá. Obľúbený je vyprážaný rezeň! Chceš vidieť celé menu?"
