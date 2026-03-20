@@ -45,6 +45,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
             <PetoAssistant />
+            <CookieConsent />
           </BrowserRouter>
         </AuthProvider>
       </TooltipProvider>
