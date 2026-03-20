@@ -56,21 +56,26 @@ serve(async (req) => {
       ...(messages || []),
     ];
 
-    const response = await fetch('https://ai-gateway.lovable.dev/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
-        messages: aiMessages,
-        response_format: { type: 'json_object' },
-      }),
-    });
+    // Use Google Generative AI REST API directly
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gemini-2.5-flash',
+          messages: aiMessages,
+          response_mime_type: 'application/json',
+        }),
+      }
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
+      console.error('AI API raw error:', errorText);
       throw new Error(`AI API error [${response.status}]: ${errorText}`);
     }
 
