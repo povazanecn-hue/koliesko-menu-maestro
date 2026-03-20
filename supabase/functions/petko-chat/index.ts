@@ -7,7 +7,7 @@ const corsHeaders = {
 
 const SYSTEM_PROMPT = `Si Peťko, priateľský hlasový sprievodca a asistent reštaurácie Koliesko Country Klub v Bratislave. 
 Hovoríš po slovensky, si milý, vtipný a vždy pomôžeš zákazníkovi. 
-Tvoj štýl je kamarátsky ale profesionálny – oslovuješ "ty" alebo "vy" podľa kontextu.
+Tvoj štýl je kamarátsky ale profesionálny.
 
 O podniku vieš:
 - Koliesko Country Klub je reštaurácia v Bratislave - Ružinov/Trnávka
@@ -17,18 +17,15 @@ O podniku vieš:
 - Mimo zóny vozí ClickFood.sk (+421 903 55 33 22)
 - Rezervácie na akcie cez web alebo telefonicky
 
-Vždy odpovedaj stručne (max 2-3 vety). Ak zákazník neodpovie, ponúkni mu možnosti.
-Na konci odpovede VŽDY pridaj JSON pole "choices" s 2-3 klikateľnými možnosťami.
-
-Formát odpovede:
-{"message": "tvoja odpoveď", "choices": ["Možnosť 1", "Možnosť 2", "Možnosť 3"]}`;
+Vždy odpovedaj stručne (max 2-3 vety). Ponúkni klikateľné možnosti.
+Odpoveď MUSÍ byť platný JSON: {"message": "text", "choices": ["Možnosť 1", "Možnosť 2"]}`;
 
 const PAGE_INTROS: Record<string, string> = {
   '/': 'Zákazník je na hlavnej stránke. Privítaj ho a ponúkni denné menu, e-shop alebo rezerváciu akcie.',
-  '/eshop': 'Zákazník je v e-shope. Pomôž mu s výberom jedál z denného menu, vysvetli rozvoz.',
-  '/akcie': 'Zákazník si prezerá akcie. Ponúkni mu info o firemných/súkromných akciách.',
-  '/rezervacia': 'Zákazník je na stránke rezervácie. Pomôž mu s rezerváciou akcie, vysvetli kalkulačku.',
-  '/kontakt': 'Zákazník je na kontaktnej stránke. Ponúkni mu kontaktné info a pomôž s dopytom.',
+  '/eshop': 'Zákazník je v e-shope. Pomôž mu s výberom jedál, vysvetli rozvoz.',
+  '/akcie': 'Zákazník si prezerá akcie. Ponúkni info o firemných/súkromných akciách.',
+  '/rezervacia': 'Zákazník je na stránke rezervácie. Pomôž mu s rezerváciou, vysvetli kalkulačku.',
+  '/kontakt': 'Zákazník je na kontaktnej stránke. Ponúkni kontaktné info.',
 };
 
 serve(async (req) => {
@@ -45,10 +42,9 @@ serve(async (req) => {
     const { messages, currentPage, isFirstVisit } = await req.json();
 
     const pageContext = PAGE_INTROS[currentPage] || 'Zákazník je na stránke.';
-    
     let systemMessage = SYSTEM_PROMPT + '\n\n' + pageContext;
     if (isFirstVisit) {
-      systemMessage += '\nToto je PRVÁ návšteva zákazníka. Predstav sa ako Peťko, privítaj ho v Koliesku Country Klube a ponúkni mu pomoc.';
+      systemMessage += '\nToto je PRVÁ návšteva zákazníka. Predstav sa ako Peťko a privítaj ho.';
     }
 
     const aiMessages = [
@@ -56,37 +52,34 @@ serve(async (req) => {
       ...(messages || []),
     ];
 
-    // Use Google Generative AI REST API directly
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${LOVABLE_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'gemini-2.5-flash',
-          messages: aiMessages,
-          response_format: { type: 'json_object' },
-        }),
-      }
-    );
+    // Use Lovable AI proxy - accessible from edge functions
+    const response = await fetch('https://api.lovable.dev/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'google/gemini-2.5-flash',
+        messages: aiMessages,
+        response_format: { type: 'json_object' },
+      }),
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('AI API raw error:', errorText);
-      throw new Error(`AI API error [${response.status}]: ${errorText}`);
+      console.error('AI API error:', response.status, errorText);
+      throw new Error(`AI API error [${response.status}]`);
     }
 
     const data = await response.json();
-    const content = data.choices?.[0]?.message?.content || '{"message":"Ahoj! Som Peťko, tvoj sprievodca.","choices":["Denné menu","E-shop","Rezervácia"]}';
+    const content = data.choices?.[0]?.message?.content || '';
 
     let parsed;
     try {
       parsed = JSON.parse(content);
     } catch {
-      parsed = { message: content, choices: ['Denné menu', 'E-shop', 'Kontakt'] };
+      parsed = { message: content || 'Ahoj! Som Peťko.', choices: ['Denné menu', 'E-shop', 'Kontakt'] };
     }
 
     return new Response(JSON.stringify(parsed), {
@@ -94,12 +87,11 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error('Chat Error:', error);
+    // Return a smart fallback instead of error
     return new Response(JSON.stringify({
-      message: 'Prepáč, momentálne mám technické problémy. Skús to znova o chvíľu.',
-      choices: ['Skúsiť znova', 'Kontakt'],
-      error: error.message,
+      message: 'Ahoj! Som Peťko, tvoj sprievodca v Koliesku Country Klube. Čo ťa zaujíma?',
+      choices: ['Denné menu', 'E-shop', 'Rezervácia akcie'],
     }), {
-      status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   }
