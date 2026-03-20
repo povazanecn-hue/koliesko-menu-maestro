@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import logo from '@/assets/logo-koliesko.png';
+import logo from '@/assets/logo-koliesko-new.png';
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
 
@@ -55,7 +55,7 @@ export default function Navbar() {
           <img
             src={logo}
             alt="Koliesko Country Klub"
-            className="h-11 md:h-13 w-auto transition-transform duration-300 group-hover:scale-[1.03]"
+            className="h-14 md:h-16 w-auto transition-transform duration-300 group-hover:scale-[1.03]"
           />
         </Link>
 
