@@ -11,6 +11,12 @@ export default function ONasPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>O nás | Koliesko Country Klub</title>
+        <meta name="description" content="Spoznajte príbeh Koliesko Country Klubu — rodinná reštaurácia v Bratislave od roku 2004." />
+        <meta property="og:title" content="O nás | Koliesko Country Klub" />
+        <meta property="og:description" content="Miesto, kde sa stretávajú chute a ľudia — už vyše 20 rokov." />
+      </Helmet>
       <Navbar />
 
       {/* Hero with sketch */}
