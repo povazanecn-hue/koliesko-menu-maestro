@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { X, Send, Volume2, VolumeX } from 'lucide-react';
+import { X, Send, Volume2, VolumeX, Mic, MicOff } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import petkoAvatar from '@/assets/petko-avatar.png';
 
@@ -10,12 +10,12 @@ type ChatMessage = {
   choices?: string[];
 };
 
-const PetkoAvatar = ({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) => {
+const PetoAvatar = ({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) => {
   const sizeClass = size === 'lg' ? 'w-12 h-12' : size === 'md' ? 'w-8 h-8' : 'w-6 h-6';
-  return <img src={petkoAvatar} alt="Peťko" className={`${sizeClass} rounded-full object-cover`} />;
+  return <img src={petkoAvatar} alt="Peťo" className={`${sizeClass} rounded-full object-cover`} />;
 };
 
-const PetkoAssistant = () => {
+const PetoAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState('');
@@ -23,9 +23,12 @@ const PetkoAssistant = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(true);
   const [hasGreeted, setHasGreeted] = useState(false);
+  const [autoGreetDone, setAutoGreetDone] = useState(false);
   const [showPulse, setShowPulse] = useState(true);
+  const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const recognitionRef = useRef<any>(null);
   const location = useLocation();
   const visitedPages = useRef<Set<string>>(new Set());
 
@@ -99,7 +102,7 @@ const PetkoAssistant = () => {
 
       const assistantMessage: ChatMessage = {
         role: 'assistant',
-        content: data.message || 'Ahoj! Som Peťko.',
+        content: data.message || 'Ahoj! Som Peťo.',
         choices: data.choices || [],
       };
 
@@ -109,22 +112,36 @@ const PetkoAssistant = () => {
       console.error('Chat error:', error);
       const fallback: ChatMessage = {
         role: 'assistant',
-        content: 'Ahoj! Som Peťko, tvoj sprievodca v Koliesku. Ako ti môžem pomôcť?',
+        content: 'Ahoj! Som Peťo, tvoj sprievodca v Koliesku. Ako ti môžem pomôcť?',
         choices: ['Denné menu', 'E-shop', 'Rezervácia akcie'],
       };
       setMessages(prev => [...prev, fallback]);
+      speak(fallback.content);
     } finally {
       setIsLoading(false);
     }
   }, [messages, location.pathname, speak]);
 
-  // First visit greeting
+  // Auto-greet with voice on first page load (without opening chat)
+  useEffect(() => {
+    if (!autoGreetDone) {
+      const timer = setTimeout(() => {
+        setAutoGreetDone(true);
+        sendMessage('', true);
+      }, 2000); // 2s delay after page load
+      return () => clearTimeout(timer);
+    }
+  }, [autoGreetDone]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // First visit greeting when opening chat
   useEffect(() => {
     if (isOpen && !hasGreeted) {
       setHasGreeted(true);
-      sendMessage('', true);
+      if (!autoGreetDone) {
+        sendMessage('', true);
+      }
     }
-  }, [isOpen, hasGreeted, sendMessage]);
+  }, [isOpen, hasGreeted]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Page change intro
   useEffect(() => {
@@ -134,7 +151,48 @@ const PetkoAssistant = () => {
         sendMessage(`Prešiel som na stránku ${location.pathname}`, false);
       }
     }
-  }, [location.pathname, isOpen, hasGreeted]);
+  }, [location.pathname, isOpen, hasGreeted]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Speech recognition setup
+  const startListening = useCallback(() => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      console.warn('Speech recognition not supported');
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'sk-SK';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      if (transcript.trim()) {
+        sendMessage(transcript.trim());
+      }
+      setIsListening(false);
+    };
+
+    recognition.onerror = () => {
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsListening(true);
+  }, [sendMessage]);
+
+  const stopListening = useCallback(() => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+    }
+    setIsListening(false);
+  }, []);
 
   const handleChoiceClick = (choice: string) => {
     sendMessage(choice);
@@ -166,21 +224,19 @@ const PetkoAssistant = () => {
       <button
         onClick={toggleOpen}
         className={`fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${
-          isOpen
-            ? 'bg-hsl(var(--destructive)) scale-90'
-            : 'bg-gradient-to-br from-[hsl(var(--primary))] to-[hsl(40,90%,40%)]'
+          isOpen ? 'scale-90' : ''
         }`}
         style={{
           background: isOpen
             ? 'hsl(0, 72%, 51%)'
             : 'linear-gradient(135deg, hsl(40,82%,52%), hsl(40,90%,38%))',
         }}
-        aria-label={isOpen ? 'Zavrieť Peťka' : 'Otvoriť Peťka'}
+        aria-label={isOpen ? 'Zavrieť Peťa' : 'Otvoriť Peťa'}
       >
         {isOpen ? (
           <X className="w-6 h-6 text-white" />
         ) : (
-          <PetkoAvatar size="lg" />
+          <PetoAvatar size="lg" />
         )}
         {showPulse && !isOpen && (
           <span className="absolute inset-0 rounded-full animate-ping bg-[hsl(var(--primary))]/30 pointer-events-none" />
@@ -190,7 +246,7 @@ const PetkoAssistant = () => {
       {/* Greeting tooltip */}
       {!isOpen && showPulse && (
         <div className="fixed bottom-24 right-4 z-50 bg-[hsl(var(--card))] border border-[hsl(var(--primary))]/30 text-[hsl(var(--foreground))] px-4 py-3 rounded-2xl rounded-br-sm shadow-xl max-w-[220px] animate-in fade-in slide-in-from-bottom-2 duration-500">
-          <p className="text-sm font-medium">Ahoj! Som Peťko 👋</p>
+          <p className="text-sm font-medium">Ahoj! Som Peťo 👋</p>
           <p className="text-xs text-[hsl(var(--muted-foreground))] mt-1">Klikni a pomôžem ti!</p>
         </div>
       )}
@@ -201,15 +257,15 @@ const PetkoAssistant = () => {
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-white/10 bg-gradient-to-r from-[hsl(var(--primary))]/10 to-transparent">
             <div className="relative">
-              <PetkoAvatar size="md" />
+              <PetoAvatar size="md" />
               {isSpeaking && (
                 <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-[hsl(var(--card))] animate-pulse" />
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-semibold text-[hsl(var(--foreground))]">Peťko</h3>
+              <h3 className="text-sm font-semibold text-[hsl(var(--foreground))]">Peťo</h3>
               <p className="text-xs text-[hsl(var(--muted-foreground))]">
-                {isSpeaking ? 'Hovorím...' : isLoading ? 'Premýšľam...' : 'Online'}
+                {isSpeaking ? 'Hovorím...' : isListening ? 'Počúvam...' : isLoading ? 'Premýšľam...' : 'Online'}
               </p>
             </div>
             <button
@@ -233,7 +289,7 @@ const PetkoAssistant = () => {
             {messages.map((msg, i) => (
               <div key={i} className={`flex gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {msg.role === 'assistant' && (
-                  <span className="shrink-0 mt-1"><PetkoAvatar size="sm" /></span>
+                  <span className="shrink-0 mt-1"><PetoAvatar size="sm" /></span>
                 )}
                 <div className={`max-w-[85%] ${msg.role === 'user' ? 'order-first' : ''}`}>
                   <div
@@ -265,7 +321,7 @@ const PetkoAssistant = () => {
             ))}
             {isLoading && (
               <div className="flex gap-2 items-start">
-                <PetkoAvatar size="sm" />
+                <PetoAvatar size="sm" />
                 <div className="bg-[hsl(var(--secondary))] rounded-2xl rounded-bl-sm px-4 py-3">
                   <div className="flex gap-1">
                     <span className="w-2 h-2 bg-[hsl(var(--muted-foreground))] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
@@ -284,10 +340,24 @@ const PetkoAssistant = () => {
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              placeholder="Napíš Peťkovi..."
+              placeholder="Napíš Peťovi..."
               className="flex-1 bg-[hsl(var(--secondary))] text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] text-sm px-4 py-2.5 rounded-full border border-white/10 focus:outline-none focus:border-[hsl(var(--primary))]/50 transition-colors"
               disabled={isLoading}
             />
+            {/* Mic button */}
+            <button
+              type="button"
+              onClick={isListening ? stopListening : startListening}
+              disabled={isLoading}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-40 ${
+                isListening
+                  ? 'bg-red-500 text-white animate-pulse'
+                  : 'bg-[hsl(var(--secondary))] text-[hsl(var(--foreground))] hover:bg-[hsl(var(--primary))]/20'
+              }`}
+              aria-label={isListening ? 'Zastaviť nahrávanie' : 'Hovoriť'}
+            >
+              {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+            </button>
             <button
               type="submit"
               disabled={isLoading || !inputText.trim()}
@@ -302,4 +372,4 @@ const PetkoAssistant = () => {
   );
 };
 
-export default PetkoAssistant;
+export default PetoAssistant;

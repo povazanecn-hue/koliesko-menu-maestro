@@ -5,7 +5,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const SYSTEM_PROMPT = `Si Peťko, priateľský hlasový sprievodca a asistent reštaurácie Koliesko Country Klub v Bratislave. 
+const SYSTEM_PROMPT = `Si Peťo, priateľský hlasový sprievodca a asistent reštaurácie Koliesko Country Klub v Bratislave. 
 Hovoríš po slovensky, si milý, vtipný a vždy pomôžeš zákazníkovi. 
 Tvoj štýl je kamarátsky ale profesionálny.
 
@@ -48,7 +48,7 @@ serve(async (req) => {
     const pageContext = PAGE_INTROS[currentPage] || 'Zákazník je na stránke.';
     let systemMessage = SYSTEM_PROMPT + '\n\n' + pageContext;
     if (isFirstVisit) {
-      systemMessage += '\nToto je PRVÁ návšteva zákazníka. Predstav sa ako Peťko a privítaj ho.';
+      systemMessage += '\nToto je PRVÁ návšteva zákazníka. Predstav sa ako Peťo a privítaj ho.';
     }
 
     const aiMessages = [
@@ -56,7 +56,6 @@ serve(async (req) => {
       ...(messages || []),
     ];
 
-    // Use Lovable AI proxy - accessible from edge functions
     const response = await fetch('https://api.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -83,7 +82,7 @@ serve(async (req) => {
     try {
       parsed = JSON.parse(content);
     } catch {
-      parsed = { message: content || 'Ahoj! Som Peťko.', choices: ['Denné menu', 'E-shop', 'Kontakt'] };
+      parsed = { message: content || 'Ahoj! Som Peťo.', choices: ['Denné menu', 'E-shop', 'Kontakt'] };
     }
 
     return new Response(JSON.stringify(parsed), {
@@ -91,9 +90,8 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error('Chat Error:', error);
-    // Return a smart fallback instead of error
     return new Response(JSON.stringify({
-      message: 'Ahoj! Som Peťko, tvoj sprievodca v Koliesku Country Klube. Čo ťa zaujíma?',
+      message: 'Ahoj! Som Peťo, tvoj sprievodca v Koliesku Country Klube. Čo ťa zaujíma?',
       choices: ['Denné menu', 'E-shop', 'Rezervácia akcie'],
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
