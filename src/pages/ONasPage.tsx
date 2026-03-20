@@ -45,6 +45,28 @@ export default function ONasPage() {
         </div>
       </section>
 
+      {/* Stats */}
+      <section className="py-16 bg-background">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { value: '20+', label: 'rokov tradície', icon: Heart },
+              { value: '120', label: 'miest na sedenie', icon: Users },
+              { value: '4,5', label: 'hodnotenie ★', icon: Star },
+              { value: '5 000+', label: 'spokojných hostí', icon: MapPin },
+            ].map((s) => (
+              <div key={s.label} className="text-center py-6 px-4 rounded-xl border border-border bg-card group hover:border-gold/20 transition-all duration-300">
+                <div className="w-10 h-10 rounded-xl bg-gold/10 border border-gold/15 flex items-center justify-center mx-auto mb-3 group-hover:bg-gold/15 transition-colors">
+                  <s.icon size={18} className="text-gold" />
+                </div>
+                <p className="font-display text-3xl font-bold text-gold mb-1">{s.value}</p>
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Values */}
       <section ref={valRef} className="py-24 bg-card">
         <div className="container mx-auto px-4 max-w-4xl">
