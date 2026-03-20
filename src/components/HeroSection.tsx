@@ -26,8 +26,8 @@ export default function HeroSection() {
           className="w-full h-full object-cover will-change-transform"
           style={{ transform: `scale(1.15) translateY(${scrollY * 0.3}px)` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/50" />
+        <div className="absolute inset-0 bg-background/25" />
       </div>
 
       {/* Decorative line */}
