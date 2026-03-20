@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import DailyMenuSection from '@/components/DailyMenuSection';
@@ -9,6 +10,12 @@ export default function DenneMenuPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Denné menu | Koliesko Country Klub</title>
+        <meta name="description" content="Denné obedové menu Koliesko Country Klubu v Bratislave. Čerstvé polievky a hlavné jedlá každý pracovný deň." />
+        <meta property="og:title" content="Denné menu | Koliesko Country Klub" />
+        <meta property="og:description" content="Čerstvé obedy každý pracovný deň od 6,90 €." />
+      </Helmet>
       <Navbar />
 
       <section className="pt-28 md:pt-32 pb-8">

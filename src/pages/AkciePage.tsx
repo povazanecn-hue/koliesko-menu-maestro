@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
@@ -16,6 +17,12 @@ export default function AkciePage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Akcie a eventy | Koliesko Country Klub</title>
+        <meta name="description" content="Firemné akcie, oslavy, svadby a teambuildingy v Koliesko Country Klube. Kapacita až 120 hostí." />
+        <meta property="og:title" content="Akcie a eventy | Koliesko Country Klub" />
+        <meta property="og:description" content="Usporiadajte svoju akciu u nás — až 120 hostí s kompletným servisom." />
+      </Helmet>
       <Navbar />
 
       {/* Hero */}

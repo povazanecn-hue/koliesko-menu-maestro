@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import EventCalendarSection from '@/components/EventCalendarSection';
@@ -14,6 +15,12 @@ export default function RezervaciaPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Rezervácia | Koliesko Country Klub</title>
+        <meta name="description" content="Rezervujte si termín na akciu alebo oslavu v Koliesko Country Klube v Bratislave." />
+        <meta property="og:title" content="Rezervácia | Koliesko Country Klub" />
+        <meta property="og:description" content="Vyberte termín a rezervujte si priestory pre vašu akciu." />
+      </Helmet>
       <Navbar />
 
       {/* Hero header */}
