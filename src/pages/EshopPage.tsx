@@ -158,9 +158,12 @@ export default function EshopPage() {
                       <span className="text-foreground font-bold">Celkom</span>
                       <span className="text-gold font-bold text-xl tabular-nums">{totalPrice.toFixed(2).replace('.', ',')} €</span>
                     </div>
-                    <button className="w-full py-3 rounded-lg bg-primary text-primary-foreground font-semibold transition-all hover:shadow-lg hover:shadow-gold/20 active:scale-[0.97]">
+                    <a
+                      href={`mailto:rezervacie@klubkoliesko.sk?subject=Objednávka jedál&body=${encodeURIComponent(cart.map(i => `${i.quantity}x ${i.name} (${(i.price * i.quantity).toFixed(2).replace('.', ',')} €)`).join('\n') + '\n\nCelkom: ' + totalPrice.toFixed(2).replace('.', ',') + ' €')}`}
+                      className="block w-full py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-center transition-all hover:shadow-lg hover:shadow-gold/20 active:scale-[0.97]"
+                    >
                       Objednať
-                    </button>
+                    </a>
                   </div>
                 </>
               )}
