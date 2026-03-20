@@ -21,7 +21,7 @@ export default function HeroSection() {
           Bratislava · Banšelova 3
         </p>
         <h1
-          className="font-display text-5xl md:text-7xl font-bold text-foreground leading-[0.95] mb-6"
+          className="font-display text-4xl sm:text-5xl md:text-7xl font-bold text-foreground leading-[0.95] mb-6"
           style={{ animation: isVisible ? 'reveal-up 0.7s cubic-bezier(0.16,1,0.3,1) 0.25s forwards' : 'none', opacity: 0 }}
         >
           Koliesko

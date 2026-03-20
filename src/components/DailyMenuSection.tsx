@@ -120,21 +120,21 @@ export default function DailyMenuSection() {
             {currentMenu.items.map((item, i) => (
               <div
                 key={item.name}
-                className="px-6 py-5 flex items-start justify-between gap-4 hover:bg-secondary/50 transition-colors duration-150"
+                className="px-4 sm:px-6 py-5 flex items-start justify-between gap-3 sm:gap-4 hover:bg-secondary/50 transition-colors duration-150"
                 style={{ animation: isVisible ? `reveal-up 0.5s cubic-bezier(0.16,1,0.3,1) ${0.4 + i * 0.08}s forwards` : 'none', opacity: 0 }}
               >
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold text-foreground">{item.name}</h3>
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1">
+                    <h3 className="font-semibold text-foreground text-sm sm:text-base">{item.name}</h3>
                     {item.tag && (
-                      <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-gold/15 text-gold font-bold">
+                      <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-gold/15 text-gold font-bold shrink-0">
                         {item.tag}
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-muted-foreground">{item.description}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{item.description}</p>
                 </div>
-                <span className="text-gold font-bold text-lg tabular-nums whitespace-nowrap">{item.price}</span>
+                <span className="text-gold font-bold text-base sm:text-lg tabular-nums whitespace-nowrap">{item.price}</span>
               </div>
             ))}
           </div>
