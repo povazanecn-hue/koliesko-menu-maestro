@@ -23,9 +23,12 @@ export default function Footer() {
             <div className="flex flex-col gap-2.5">
               {[
                 { label: 'Domov', to: '/' },
-                { label: 'Denné menu', to: '/#denne-menu' },
+                { label: 'Denné menu', to: '/denne-menu' },
+                { label: 'Jedálny lístok', to: '/menu' },
                 { label: 'Akcie & Eventy', to: '/akcie' },
                 { label: 'E-shop', to: '/eshop' },
+                { label: 'O nás', to: '/o-nas' },
+                { label: 'Galéria', to: '/galeria' },
               ].map((item) => (
                 <Link
                   key={item.to}

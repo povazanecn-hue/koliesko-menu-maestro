@@ -5,10 +5,11 @@ import { Menu, X, Phone } from 'lucide-react';
 
 const navItems = [
   { label: 'Domov', path: '/' },
-  { label: 'Denné menu', path: '/#denne-menu' },
-  { label: 'Rezervácia', path: '/rezervacia' },
+  { label: 'Denné menu', path: '/denne-menu' },
+  { label: 'Jedálny lístok', path: '/menu' },
   { label: 'Akcie & Eventy', path: '/akcie' },
   { label: 'E-shop', path: '/eshop' },
+  { label: 'O nás', path: '/o-nas' },
   { label: 'Kontakt', path: '/kontakt' },
 ];
 
