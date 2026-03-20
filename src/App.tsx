@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import PetoAssistant from "@/components/PetkoAssistant";
+import CookieConsent from "@/components/CookieConsent";
 import Index from "./pages/Index.tsx";
 import DenneMenuPage from "./pages/DenneMenuPage.tsx";
 import MenuPage from "./pages/MenuPage.tsx";
@@ -44,6 +45,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
             <PetoAssistant />
+            <CookieConsent />
           </BrowserRouter>
         </AuthProvider>
       </TooltipProvider>
