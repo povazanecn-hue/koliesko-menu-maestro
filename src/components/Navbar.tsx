@@ -6,6 +6,7 @@ import { Menu, X } from 'lucide-react';
 const navItems = [
   { label: 'Domov', path: '/' },
   { label: 'Denné menu', path: '/#denne-menu' },
+  { label: 'Kalendár', path: '/#kalendar' },
   { label: 'Akcie & Eventy', path: '/akcie' },
   { label: 'E-shop', path: '/eshop' },
   { label: 'Kontakt', path: '/#kontakt' },
