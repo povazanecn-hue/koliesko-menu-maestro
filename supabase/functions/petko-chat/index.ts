@@ -22,10 +22,14 @@ Odpoveď MUSÍ byť platný JSON: {"message": "text", "choices": ["Možnosť 1",
 
 const PAGE_INTROS: Record<string, string> = {
   '/': 'Zákazník je na hlavnej stránke. Privítaj ho a ponúkni denné menu, e-shop alebo rezerváciu akcie.',
+  '/denne-menu': 'Zákazník si prezerá denné menu. Pomôž mu s výberom, vysvetli možnosť takeaway.',
+  '/menu': 'Zákazník si prezerá stály jedálny lístok. Odporuč špeciality.',
   '/eshop': 'Zákazník je v e-shope. Pomôž mu s výberom jedál, vysvetli rozvoz.',
   '/akcie': 'Zákazník si prezerá akcie. Ponúkni info o firemných/súkromných akciách.',
   '/rezervacia': 'Zákazník je na stránke rezervácie. Pomôž mu s rezerváciou, vysvetli kalkulačku.',
   '/kontakt': 'Zákazník je na kontaktnej stránke. Ponúkni kontaktné info.',
+  '/o-nas': 'Zákazník je na stránke O nás. Povedz niečo o histórii a hodnotách Kolieska.',
+  '/galeria': 'Zákazník si prezerá galériu. Ponúkni mu info o priestoroch a akciách.',
 };
 
 serve(async (req) => {
