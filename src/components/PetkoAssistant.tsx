@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { MessageCircle, X, Send, Volume2, VolumeX, Mic } from 'lucide-react';
+import { X, Send, Volume2, VolumeX } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import petkoAvatar from '@/assets/petko-avatar.png';
 
 type ChatMessage = {
   role: 'user' | 'assistant';
@@ -9,7 +10,10 @@ type ChatMessage = {
   choices?: string[];
 };
 
-const AVATAR_EMOJI = '👨‍🍳';
+const PetkoAvatar = ({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) => {
+  const sizeClass = size === 'lg' ? 'w-12 h-12' : size === 'md' ? 'w-8 h-8' : 'w-6 h-6';
+  return <img src={petkoAvatar} alt="Peťko" className={`${sizeClass} rounded-full object-cover`} />;
+};
 
 const PetkoAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
