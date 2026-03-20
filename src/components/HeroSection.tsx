@@ -1,4 +1,4 @@
-import heroImg from '@/assets/hero-koliesko.jpg';
+import heroImg from '@/assets/koliesko-skica.jpeg';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import { ArrowDown, Sparkles, CalendarCheck } from 'lucide-react';
 
