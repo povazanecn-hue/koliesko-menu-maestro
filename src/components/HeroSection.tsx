@@ -1,15 +1,31 @@
 import heroImg from '@/assets/koliesko-skica.jpeg';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import { ArrowDown, Sparkles, CalendarCheck } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function HeroSection() {
   const { ref, isVisible } = useScrollReveal(0.1);
+  const [scrollY, setScrollY] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      requestAnimationFrame(() => setScrollY(window.scrollY));
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background */}
+    <section ref={(node) => { (ref as React.MutableRefObject<HTMLElement | null>).current = node; sectionRef.current = node; }} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background with parallax */}
       <div className="absolute inset-0">
-        <img src={heroImg} alt="Koliesko Country Klub interiér" className="w-full h-full object-cover scale-105" />
+        <img
+          src={heroImg}
+          alt="Koliesko Country Klub interiér"
+          className="w-full h-full object-cover will-change-transform"
+          style={{ transform: `scale(1.15) translateY(${scrollY * 0.3}px)` }}
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/20" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/30 to-transparent" />
       </div>
