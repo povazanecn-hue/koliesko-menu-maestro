@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { MessageCircle, X, Send, Volume2, VolumeX, Mic } from 'lucide-react';
+import { X, Send, Volume2, VolumeX } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import petkoAvatar from '@/assets/petko-avatar.png';
 
 type ChatMessage = {
   role: 'user' | 'assistant';
@@ -9,7 +10,10 @@ type ChatMessage = {
   choices?: string[];
 };
 
-const AVATAR_EMOJI = '👨‍🍳';
+const PetkoAvatar = ({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) => {
+  const sizeClass = size === 'lg' ? 'w-12 h-12' : size === 'md' ? 'w-8 h-8' : 'w-6 h-6';
+  return <img src={petkoAvatar} alt="Peťko" className={`${sizeClass} rounded-full object-cover`} />;
+};
 
 const PetkoAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -176,7 +180,7 @@ const PetkoAssistant = () => {
         {isOpen ? (
           <X className="w-6 h-6 text-white" />
         ) : (
-          <span className="text-3xl" role="img" aria-label="Peťko">{AVATAR_EMOJI}</span>
+          <PetkoAvatar size="lg" />
         )}
         {showPulse && !isOpen && (
           <span className="absolute inset-0 rounded-full animate-ping bg-[hsl(var(--primary))]/30 pointer-events-none" />
@@ -197,7 +201,7 @@ const PetkoAssistant = () => {
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-white/10 bg-gradient-to-r from-[hsl(var(--primary))]/10 to-transparent">
             <div className="relative">
-              <span className="text-2xl">{AVATAR_EMOJI}</span>
+              <PetkoAvatar size="md" />
               {isSpeaking && (
                 <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-[hsl(var(--card))] animate-pulse" />
               )}
@@ -229,7 +233,7 @@ const PetkoAssistant = () => {
             {messages.map((msg, i) => (
               <div key={i} className={`flex gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {msg.role === 'assistant' && (
-                  <span className="text-lg shrink-0 mt-1">{AVATAR_EMOJI}</span>
+                  <span className="shrink-0 mt-1"><PetkoAvatar size="sm" /></span>
                 )}
                 <div className={`max-w-[85%] ${msg.role === 'user' ? 'order-first' : ''}`}>
                   <div
@@ -261,7 +265,7 @@ const PetkoAssistant = () => {
             ))}
             {isLoading && (
               <div className="flex gap-2 items-start">
-                <span className="text-lg">{AVATAR_EMOJI}</span>
+                <PetkoAvatar size="sm" />
                 <div className="bg-[hsl(var(--secondary))] rounded-2xl rounded-bl-sm px-4 py-3">
                   <div className="flex gap-1">
                     <span className="w-2 h-2 bg-[hsl(var(--muted-foreground))] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
