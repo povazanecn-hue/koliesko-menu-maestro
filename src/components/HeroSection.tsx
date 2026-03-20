@@ -5,7 +5,7 @@ export default function HeroSection() {
   const { ref, isVisible } = useScrollReveal(0.1);
 
   return (
-    <section ref={ref} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <section ref={ref} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-16 md:pt-20">
       {/* Background */}
       <div className="absolute inset-0">
         <img src={heroImg} alt="Koliesko Country Klub interiér" className="w-full h-full object-cover" />
@@ -46,6 +46,7 @@ export default function HeroSection() {
           </a>
           <a
             href="/akcie"
+            onClick={(e) => { e.preventDefault(); window.location.href = '/akcie'; }}
             className="px-8 py-4 rounded-lg border border-border text-foreground font-semibold text-base transition-all duration-200 hover:border-gold hover:text-gold active:scale-[0.97]"
           >
             Naplánovať akciu
