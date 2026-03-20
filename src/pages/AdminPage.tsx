@@ -7,7 +7,7 @@ import { sk } from 'date-fns/locale';
 import { Plus, Trash2, LogOut, CalendarDays, ClipboardList, Loader2, Check, X, Pencil, Eye, EyeOff, Users, ChevronRight } from 'lucide-react';
 import type { Tables } from '@/integrations/supabase/types';
 import { toast } from 'sonner';
-import logo from '@/assets/logo-koliesko.png';
+import logo from '@/assets/logo-koliesko-gold.png';
 
 type Event = Tables<'events'>;
 type Reservation = Tables<'reservations'>;
