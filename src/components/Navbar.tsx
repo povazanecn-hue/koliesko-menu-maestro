@@ -6,10 +6,10 @@ import { Menu, X, Phone } from 'lucide-react';
 const navItems = [
   { label: 'Domov', path: '/' },
   { label: 'Denné menu', path: '/#denne-menu' },
-  { label: 'Kalendár', path: '/#kalendar' },
+  { label: 'Rezervácia', path: '/rezervacia' },
   { label: 'Akcie & Eventy', path: '/akcie' },
   { label: 'E-shop', path: '/eshop' },
-  { label: 'Kontakt', path: '/#kontakt' },
+  { label: 'Kontakt', path: '/kontakt' },
 ];
 
 export default function Navbar() {

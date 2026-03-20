@@ -7,6 +7,8 @@ import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index.tsx";
 import AkciePage from "./pages/AkciePage.tsx";
 import EshopPage from "./pages/EshopPage.tsx";
+import RezervaciaPage from "./pages/RezervaciaPage.tsx";
+import KontaktPage from "./pages/KontaktPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
@@ -24,6 +26,8 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/akcie" element={<AkciePage />} />
             <Route path="/eshop" element={<EshopPage />} />
+            <Route path="/rezervacia" element={<RezervaciaPage />} />
+            <Route path="/kontakt" element={<KontaktPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="*" element={<NotFound />} />
