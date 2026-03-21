@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['"Recoleta"', 'Georgia', 'serif'],
-        body: ['"General Sans"', 'system-ui', 'sans-serif'],
+        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        body: ['"DM Sans"', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -67,6 +67,13 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        warm: {
+          50: "hsl(var(--warm-50))",
+          100: "hsl(var(--warm-100))",
+          200: "hsl(var(--warm-200))",
+          800: "hsl(var(--warm-800))",
+          900: "hsl(var(--warm-900))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -74,10 +81,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
-        'premium': '0 4px 32px -4px hsl(40 82% 52% / 0.12), 0 2px 12px -2px hsl(0 0% 0% / 0.3)',
-        'premium-lg': '0 8px 48px -8px hsl(40 82% 52% / 0.18), 0 4px 24px -4px hsl(0 0% 0% / 0.4)',
-        'card-hover': '0 8px 32px -4px hsl(0 0% 0% / 0.4), 0 0 0 1px hsl(40 82% 52% / 0.1)',
-        'inner-glow': 'inset 0 1px 0 0 hsl(42 25% 93% / 0.04)',
+        'soft': '0 2px 16px -4px hsl(25 20% 15% / 0.06)',
+        'soft-lg': '0 4px 32px -8px hsl(25 20% 15% / 0.08)',
+        'soft-xl': '0 8px 48px -12px hsl(25 20% 15% / 0.1)',
       },
       keyframes: {
         "accordion-down": {
@@ -89,49 +95,39 @@ export default {
           to: { height: "0" },
         },
         "reveal-up": {
-          from: { opacity: "0", transform: "translateY(24px)", filter: "blur(6px)" },
-          to: { opacity: "1", transform: "translateY(0)", filter: "blur(0)" },
+          from: { opacity: "0", transform: "translateY(32px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
         "reveal-left": {
-          from: { opacity: "0", transform: "translateX(-24px)", filter: "blur(6px)" },
-          to: { opacity: "1", transform: "translateX(0)", filter: "blur(0)" },
+          from: { opacity: "0", transform: "translateX(-32px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
         },
         "reveal-right": {
-          from: { opacity: "0", transform: "translateX(24px)", filter: "blur(6px)" },
-          to: { opacity: "1", transform: "translateX(0)", filter: "blur(0)" },
+          from: { opacity: "0", transform: "translateX(32px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
         },
         "reveal-scale": {
-          from: { opacity: "0", transform: "scale(0.95)", filter: "blur(4px)" },
-          to: { opacity: "1", transform: "scale(1)", filter: "blur(0)" },
+          from: { opacity: "0", transform: "scale(0.96)" },
+          to: { opacity: "1", transform: "scale(1)" },
         },
         "fade-in": {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
-        "shimmer": {
-          "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" },
-        },
         "float": {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-8px)" },
-        },
-        "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(40 82% 52% / 0.15)" },
-          "50%": { boxShadow: "0 0 40px hsl(40 82% 52% / 0.3)" },
+          "50%": { transform: "translateY(-6px)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "reveal-up": "reveal-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
-        "reveal-left": "reveal-left 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
-        "reveal-right": "reveal-right 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
-        "reveal-scale": "reveal-scale 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
-        "fade-in": "fade-in 0.5s ease-out forwards",
-        "shimmer": "shimmer 3s linear infinite",
+        "reveal-up": "reveal-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "reveal-left": "reveal-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "reveal-right": "reveal-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "reveal-scale": "reveal-scale 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "fade-in": "fade-in 0.6s ease-out forwards",
         "float": "float 4s ease-in-out infinite",
-        "pulse-glow": "pulse-glow 3s ease-in-out infinite",
       },
     },
   },
