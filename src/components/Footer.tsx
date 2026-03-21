@@ -1,35 +1,24 @@
 import { Link } from 'react-router-dom';
 import logo from '@/assets/logo-koliesko-gold.png';
-import { MapPin, Phone, Mail, ArrowUpRight, Heart } from 'lucide-react';
+import { MapPin, Phone, Mail } from 'lucide-react';
 
 export default function Footer() {
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
   return (
-    <footer className="relative bg-surface-overlay border-t border-border/30 overflow-hidden">
-      {/* Top gold line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
-
-      <div className="container mx-auto px-4 max-w-6xl py-20">
-        <div className="grid md:grid-cols-4 gap-12 md:gap-8 mb-16">
+    <footer className="border-t border-border">
+      <div className="container mx-auto px-4 max-w-6xl py-16">
+        <div className="grid md:grid-cols-4 gap-12 md:gap-8 mb-12">
           {/* Brand */}
-          <div className="md:col-span-1">
-            <img src={logo} alt="Koliesko Country Klub" className="h-14 w-auto mb-5" />
-            <p className="text-sm text-muted-foreground/70 leading-relaxed max-w-xs mb-6">
-              Tradičná slovenská a česká kuchyňa v&nbsp;srdci Bratislavy-Trnávky od roku 2004.
+          <div>
+            <img src={logo} alt="Koliesko Country Klub" className="h-12 w-auto mb-4" />
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Tradičná slovenská a česká kuchyňa v&nbsp;Bratislave od roku 2004.
             </p>
-            <button
-              onClick={scrollToTop}
-              className="inline-flex items-center gap-2 text-xs text-muted-foreground/40 hover:text-gold transition-colors duration-300"
-            >
-              Späť nahor ↑
-            </button>
           </div>
 
           {/* Nav */}
           <div>
-            <h4 className="text-[11px] font-bold text-muted-foreground/40 uppercase tracking-[0.2em] mb-5">Navigácia</h4>
-            <div className="flex flex-col gap-3">
+            <h4 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-4">Navigácia</h4>
+            <div className="flex flex-col gap-2.5">
               {[
                 { label: 'Domov', to: '/' },
                 { label: 'Denné menu', to: '/denne-menu' },
@@ -37,13 +26,8 @@ export default function Footer() {
                 { label: 'Akcie & Eventy', to: '/akcie' },
                 { label: 'E-shop', to: '/eshop' },
               ].map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className="group text-sm text-muted-foreground/60 hover:text-gold transition-all duration-300 inline-flex items-center gap-1"
-                >
+                <Link key={item.to} to={item.to} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   {item.label}
-                  <ArrowUpRight size={11} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               ))}
             </div>
@@ -51,21 +35,16 @@ export default function Footer() {
 
           {/* More */}
           <div>
-            <h4 className="text-[11px] font-bold text-muted-foreground/40 uppercase tracking-[0.2em] mb-5">Viac</h4>
-            <div className="flex flex-col gap-3">
+            <h4 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-4">Viac</h4>
+            <div className="flex flex-col gap-2.5">
               {[
                 { label: 'O nás', to: '/o-nas' },
                 { label: 'Galéria', to: '/galeria' },
                 { label: 'Kontakt', to: '/kontakt' },
                 { label: 'Rezervácia', to: '/rezervacia' },
               ].map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className="group text-sm text-muted-foreground/60 hover:text-gold transition-all duration-300 inline-flex items-center gap-1"
-                >
+                <Link key={item.to} to={item.to} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   {item.label}
-                  <ArrowUpRight size={11} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               ))}
             </div>
@@ -73,30 +52,28 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-[11px] font-bold text-muted-foreground/40 uppercase tracking-[0.2em] mb-5">Kontakt</h4>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-3 text-sm text-muted-foreground/60">
-                <MapPin size={14} className="text-gold/50 shrink-0" />
+            <h4 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-4">Kontakt</h4>
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                <MapPin size={14} className="text-primary shrink-0" />
                 Banšelova 3, Bratislava
               </div>
-              <a href="tel:+421903510220" className="flex items-center gap-3 text-sm text-muted-foreground/60 hover:text-gold transition-colors">
-                <Phone size={14} className="text-gold/50 shrink-0" />
+              <a href="tel:+421903510220" className="flex items-center gap-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Phone size={14} className="text-primary shrink-0" />
                 0903 510 220
               </a>
-              <a href="mailto:rezervacie@klubkoliesko.sk" className="flex items-center gap-3 text-sm text-muted-foreground/60 hover:text-gold transition-colors">
-                <Mail size={14} className="text-gold/50 shrink-0" />
+              <a href="mailto:rezervacie@klubkoliesko.sk" className="flex items-center gap-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Mail size={14} className="text-primary shrink-0" />
                 rezervacie@klubkoliesko.sk
               </a>
             </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-border/20 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground/30 flex items-center gap-1.5">
-            © 2026 Koliesko Country Klub · S <Heart size={10} className="text-gold/40" /> v Bratislave
-          </p>
-          <Link to="/login" className="text-xs text-muted-foreground/20 hover:text-muted-foreground/50 transition-colors">Admin</Link>
+        {/* Bottom */}
+        <div className="border-t border-border pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-muted-foreground">© 2026 Koliesko Country Klub</p>
+          <Link to="/login" className="text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors">Admin</Link>
         </div>
       </div>
     </footer>
