@@ -1,5 +1,5 @@
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
-import { MapPin, Phone, Mail, Clock, Navigation, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, ArrowRight } from 'lucide-react';
 
 export default function ContactSection() {
   const { ref, isVisible } = useScrollReveal(0.12);
@@ -11,56 +11,43 @@ export default function ContactSection() {
   ];
 
   return (
-    <section id="kontakt" ref={ref} className="py-32 bg-background relative overflow-hidden">
-      <div className="section-divider absolute top-0 left-1/2 -translate-x-1/2" />
-
-      {/* Ambient glow */}
-      <div className="absolute bottom-0 right-0 w-64 h-64 bg-gold/3 rounded-full blur-[120px]" />
-
-      <div className="container mx-auto px-4 max-w-5xl relative">
+    <section id="kontakt" ref={ref} className="py-24 md:py-32 bg-card">
+      <div className="container mx-auto px-4 max-w-5xl">
         <div className={`text-center mb-16 ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`}>
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass border border-gold/15 mb-6">
-            <Navigation size={13} className="text-gold" />
-            <span className="text-gold text-[11px] font-semibold tracking-[0.2em] uppercase">Kontakt</span>
-          </div>
-          <h2 className="font-display text-4xl md:text-6xl font-bold text-foreground mb-5" style={{ letterSpacing: '-0.02em' }}>
-            Navštívte <span className="gold-gradient-text italic">nás</span>
+          <p className="text-sm font-medium tracking-[0.2em] uppercase text-primary mb-4">Kontakt</p>
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
+            Navštívte nás
           </h2>
         </div>
 
-        <div className={`grid md:grid-cols-2 gap-10 ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`} style={{ animationDelay: '0.15s' }}>
+        <div className={`grid md:grid-cols-2 gap-16 ${isVisible ? 'animate-reveal-up' : 'opacity-0'}`} style={{ animationDelay: '0.15s' }}>
           {/* Contact info */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             {contactItems.map(({ icon: Icon, label, value, href }) => (
-              <div key={label} className="flex items-start gap-4 group">
-                <div className="w-12 h-12 rounded-2xl bg-gold/10 border border-gold/15 flex items-center justify-center shrink-0 group-hover:bg-gold/15 group-hover:border-gold/25 transition-all duration-300">
-                  <Icon size={18} className="text-gold" />
-                </div>
+              <div key={label} className="flex items-start gap-4">
+                <Icon size={20} className="text-primary mt-0.5 shrink-0" />
                 <div>
-                  <p className="text-[11px] font-bold text-muted-foreground/50 uppercase tracking-[0.15em] mb-1">{label}</p>
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">{label}</p>
                   {href ? (
-                    <a href={href} className="text-foreground hover:text-gold transition-colors duration-300 font-medium text-[15px]">{value}</a>
+                    <a href={href} className="text-foreground hover:text-primary transition-colors font-medium">{value}</a>
                   ) : (
-                    <p className="text-foreground font-medium text-[15px]">{value}</p>
+                    <p className="text-foreground font-medium">{value}</p>
                   )}
                 </div>
               </div>
             ))}
-            {/* Opening hours */}
-            <div className="flex items-start gap-4 group">
-              <div className="w-12 h-12 rounded-2xl bg-gold/10 border border-gold/15 flex items-center justify-center shrink-0 group-hover:bg-gold/15 group-hover:border-gold/25 transition-all duration-300">
-                <Clock size={18} className="text-gold" />
-              </div>
+            <div className="flex items-start gap-4">
+              <Clock size={20} className="text-primary mt-0.5 shrink-0" />
               <div>
-                <p className="text-[11px] font-bold text-muted-foreground/50 uppercase tracking-[0.15em] mb-1">Otváracie hodiny</p>
-                <p className="text-foreground font-medium text-[15px]">Po–Pi: 10:00 – 22:00</p>
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">Otváracie hodiny</p>
+                <p className="text-foreground font-medium">Po–Pi: 10:00 – 22:00</p>
                 <p className="text-muted-foreground text-sm mt-0.5">So–Ne: 11:00 – 23:00</p>
               </div>
             </div>
 
             <a
               href="/kontakt"
-              className="group inline-flex items-center gap-2.5 text-gold text-sm font-bold hover:gap-3.5 transition-all duration-300 mt-4"
+              className="group inline-flex items-center gap-2 text-foreground text-sm font-semibold hover:text-primary transition-colors duration-300 mt-4"
             >
               Napísať správu
               <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
@@ -68,12 +55,12 @@ export default function ContactSection() {
           </div>
 
           {/* Map */}
-          <div className="rounded-3xl overflow-hidden border border-border/40 h-80 md:h-auto shadow-premium relative">
+          <div className="rounded-lg overflow-hidden h-80 md:h-auto">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2662.1!2d17.15!3d48.16!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDjCsDA5JzM2LjAiTiAxN8KwMDknMDAuMCJF!5e0!3m2!1ssk!2ssk!4v1"
               width="100%"
               height="100%"
-              style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) brightness(0.95) contrast(0.85) saturate(0.7)' }}
+              style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               title="Koliesko Country Klub mapa"

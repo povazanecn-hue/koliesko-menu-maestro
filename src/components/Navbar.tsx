@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '@/assets/logo-koliesko-gold.png';
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, ChevronRight } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 
 const navItems = [
   { label: 'Domov', path: '/' },
@@ -56,22 +56,22 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'glass-strong border-b border-border/50 shadow-lg shadow-black/20'
-          : 'bg-transparent border-b border-transparent'
+          ? 'bg-background/95 backdrop-blur-md shadow-soft'
+          : 'bg-transparent'
       }`}>
-        <div className="container mx-auto flex items-center justify-between h-16 md:h-[72px] px-4 lg:px-8">
-          <Link to="/" className="flex items-center group relative">
+        <div className="container mx-auto flex items-center justify-between h-18 md:h-20 px-4 lg:px-8">
+          <Link to="/" className="flex items-center">
             <img
               src={logo}
               alt="Koliesko Country Klub"
-              className="h-14 md:h-16 w-auto transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-110"
+              className="h-12 md:h-14 w-auto transition-all duration-300"
             />
           </Link>
 
           {/* Desktop */}
-          <div className="hidden lg:flex items-center gap-0.5">
+          <div className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -79,24 +79,21 @@ export default function Navbar() {
                   key={item.path}
                   to={item.path}
                   onClick={(e) => handleNav(e, item.path)}
-                  className={`relative px-3.5 py-2 rounded-lg text-[13px] font-medium tracking-wide transition-all duration-300 ${
+                  className={`px-4 py-2 text-[13px] font-medium tracking-wide transition-colors duration-300 ${
                     isActive
-                      ? 'text-gold'
+                      ? 'text-foreground'
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {item.label}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[2px] rounded-full gold-gradient" />
-                  )}
                 </Link>
               );
             })}
             <a
               href="tel:+421903510220"
-              className="ml-4 inline-flex items-center gap-2 px-6 py-2.5 rounded-xl gold-gradient text-primary-foreground text-[13px] font-bold tracking-wide transition-all duration-300 hover:shadow-lg hover:shadow-[hsl(40_82%_52%/0.3)] active:scale-[0.97]"
+              className="ml-6 inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-foreground text-background text-[13px] font-semibold tracking-wide transition-all duration-300 hover:bg-foreground/90 active:scale-[0.97]"
             >
-              <Phone size={14} strokeWidth={2.5} />
+              <Phone size={13} />
               Rezervovať
             </a>
           </div>
@@ -104,9 +101,9 @@ export default function Navbar() {
           {/* Mobile toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2.5 rounded-xl text-foreground hover:bg-secondary/50 active:scale-95 transition-all"
+            className="lg:hidden p-2 text-foreground active:scale-95 transition-all"
           >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </nav>
@@ -114,28 +111,27 @@ export default function Navbar() {
       {/* Mobile overlay */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 lg:hidden" onClick={() => setMobileOpen(false)}>
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-foreground/10 backdrop-blur-sm" />
           <div
-            className="absolute top-[64px] left-0 right-0 bottom-0 bg-surface-overlay/98 backdrop-blur-2xl border-t border-border overflow-y-auto"
+            className="absolute top-[72px] left-0 right-0 bg-background border-t border-border overflow-y-auto max-h-[calc(100vh-72px)]"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex flex-col p-6 gap-1">
+            <div className="flex flex-col p-6 gap-0">
               {navItems.map((item, i) => (
                 <Link
                   key={item.path}
                   to={item.path}
                   onClick={(e) => handleNav(e, item.path)}
-                  className="flex items-center justify-between text-base font-medium text-muted-foreground hover:text-gold py-4 px-4 rounded-xl transition-all border-b border-border/30 last:border-0"
-                  style={{ animation: `reveal-up 0.4s cubic-bezier(0.16,1,0.3,1) ${i * 0.05}s forwards`, opacity: 0 }}
+                  className="text-lg font-medium text-foreground py-4 transition-colors hover:text-primary border-b border-border/50 last:border-0"
+                  style={{ animation: `reveal-up 0.4s cubic-bezier(0.16,1,0.3,1) ${i * 0.04}s forwards`, opacity: 0 }}
                 >
                   {item.label}
-                  <ChevronRight size={16} className="text-muted-foreground/30" />
                 </Link>
               ))}
               <a
                 href="tel:+421903510220"
-                className="mt-6 px-6 py-4 rounded-xl gold-gradient text-primary-foreground text-base font-bold text-center transition-all hover:shadow-premium"
-                style={{ animation: `reveal-up 0.4s cubic-bezier(0.16,1,0.3,1) 0.35s forwards`, opacity: 0 }}
+                className="mt-6 px-6 py-4 rounded-full bg-foreground text-background text-base font-semibold text-center transition-all"
+                style={{ animation: `reveal-up 0.4s cubic-bezier(0.16,1,0.3,1) 0.3s forwards`, opacity: 0 }}
               >
                 <Phone size={16} className="inline mr-2" />
                 Rezervovať stôl
